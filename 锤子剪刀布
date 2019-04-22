@@ -1,0 +1,57 @@
+/*大家应该都会玩“锤子剪刀布”的游戏：
+现给出两人的交锋记录，请统计双方的胜、平、负次数，并且给出双方分别出什么手势的胜算最大。
+输入第1行给出正整数N（<=105），即双方交锋的次数。随后N行，每行给出一次交锋的信息，即甲、乙双方同时给出的的手势。C代表“锤子”、J代表“剪刀”、B代
+表“布”，第1个字母代表甲方，第2个代表乙方，中间有1个空格。
+输出第1、2行分别给出甲、乙的胜、平、负次数，数字间以1个空格分隔。第3行给出两个字母，分别代表甲、乙获胜次数最多的手势，中间有1个空格。如果解不唯
+一，则输出按字母序最小的解。*/
+//java写算法和C、C艹比运行速度真的好慢好慢。
+import java.util.Scanner;
+public class Main {
+    static int change(char c){
+        if(c=='B')
+            return 0;
+        if(c=='C')
+            return 1;
+        else
+            return 2;
+    }
+    public static void main(String[] args){
+        char result[]={'B','C','J'};
+      Scanner reader=new Scanner(System.in);
+      int n=reader.nextInt();
+      int array0[]=new int[3];//记录手势赢得次数
+      int array1[]=new int[3];
+      int success0[]=new int[3];
+      int success1[]=new int[3];
+      reader.nextLine();
+      for(int i=0;i<n;i++){
+          String string=reader.nextLine();
+          int k1=change(string.charAt(0));
+          int k2=change(string.charAt(2));
+          if((k1+1)%3==k2){
+              array0[k1]++;
+              success0[0]++;
+              success1[2]++;
+          }
+          else if(k1==k2){
+              success0[1]++;
+              success1[1]++;
+          }
+          else{
+              array1[k2]++;
+              success0[2]++;
+              success1[0]++;
+          }
+      }
+      System.out.println(success0[0]+" "+success0[1]+" "+success0[2]);
+      System.out.println(success1[0]+" "+success1[1]+" "+success1[2]);
+      int temp0=0,temp1=0;
+      for(int i=1;i<3;i++){
+          if(array0[i]>array0[temp0])
+              temp0=i;
+          if(array1[i]>array1[temp1])
+              temp1=i;
+      }
+      System.out.println(result[temp0]+" "+result[temp1]);
+    }
+}
