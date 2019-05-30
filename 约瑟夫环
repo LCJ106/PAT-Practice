@@ -1,0 +1,25 @@
+//CVTE笔试编程不能运行检查太坑了，约瑟夫环的解法是我临时想起来的，刚刚在自己电脑上敲了一下发现笔试解法多减了1，，，
+import java.util.*;
+public class test{
+    static void JoseHus(int m,int n){
+        LinkedList<Integer> list=new LinkedList<>();
+        for(int i=0;i<n;i++){
+            list.add(i+1);
+        }
+        int index=(m-1)%n;//下标是index
+        for(int i=0;i<n;i++){
+            int length=n-i;//此时list总长度
+            int temp=(index+1)%length;//下一个元素下标
+            System.out.print(list.remove(index));
+            if(temp==index){          //下标相同表示list仅一个元素，删除后现为空，约瑟夫环已移除完，跳出循环。
+               break;
+            }
+            //不为空
+            index=(index+m-1)%(length-1);  //index+m为本来的结果，下标为index的元素被删除，变为index+m-1，对应的下标为（index+m-1）%(length-1)
+            System.out.print(" ");
+        }
+    }
+    public static void main(String[] args){
+        JoseHus(2,7);
+    }
+}
