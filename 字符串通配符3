@@ -1,0 +1,37 @@
+//时间复杂度O(n^2)
+import java.util.Scanner;
+public class Main {
+    static String W;
+    static String S;
+    static int[][] array;
+     static int match(int w,int s) {
+         if(array[w][s]!=0)
+             return array[w][s];
+         int a=w,b=s;
+        while (w <W.length()&&s<S.length()&&(W.charAt(w)==S.charAt(s)||W.charAt(w)=='?')){
+            return array[a][b]=match(w+1,s+1);
+        }
+        if(w==W.length())
+            return array[a][b]=s==S.length()?1:-1;
+        if(W.charAt(w)=='*'){
+            if(match(w+1,s)==1||(s<S.length()&&match(w,s+1)==1))
+                return array[a][b]=1;
+
+        }
+        return array[a][b]=-1;
+
+    }
+    public static void main(String[] args){
+
+        Scanner reader=new Scanner(System.in);
+        while(reader.hasNext()){
+             String w=reader.nextLine();
+             String s=reader.nextLine();
+             Main.W=w;
+             Main.S=s;
+             array=new int[W.length()+1][S.length()+1];
+             System.out.println(match(0,0)==1);
+        }
+
+    }
+}
