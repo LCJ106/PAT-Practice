@@ -1,0 +1,38 @@
+/*
+    7
+   3 8
+  8 1 0
+ 2 7 4 4
+4 5 2 6 5
+如上图所示，从一个数字三角形的顶部走到底部有很多条不同的路径，规则是只能从当前节点走到下一层相邻的节点，即下一层的左边或右边。例如第三行第二个数字“1”只能走到第四行的第二个数字“7”与第三个数字“4”。
+请寻找最佳一条路径，使得这条路径上节点的数字总和最大。*/
+
+//实际上就是二维数组,只能朝下或右下走
+import java.util.*;
+public class Main{
+    static int[][] array;
+    static int[][] cache;
+    static int path(int x,int y){
+        //实际上路径值也可能为0,但概率很小,当然也可以把cache初始化为全-1作为判断标准
+        if(cache[x][y]!=0)
+            return cache[x][y];
+        if(x==array.length-1){
+            return cache[x][y]=array[x][y];
+        }
+        return cache[x][y]=array[x][y]+Math.max(path(x+1,y),path(x+1,y+1));
+    }
+    public static void main(String[] args){
+        Scanner reader=new Scanner(System.in);
+          while(reader.hasNext()){
+            int num=reader.nextInt();
+            array=new int[num][num];
+            cache=new int[num][num];
+            for(int i=0;i<num;i++){
+                for(int j=0;j<=i;j++){
+                    array[i][j]=reader.nextInt();
+                }
+            }
+            System.out.println(path(0,0));
+         }
+    }
+}
