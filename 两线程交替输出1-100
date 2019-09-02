@@ -1,0 +1,45 @@
+public class test {
+    volatile boolean flag=false;
+    public static void main(String[] args) {
+        test a = new test();
+        Thread second = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 2; i <= 100; i=i+2) {
+                    if((i==2)&&!a.flag) {
+                        try {
+                            Thread.currentThread().sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    synchronized (a) {
+                        System.out.println(i);
+                        try {
+                            a.notify();
+                            a.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        second.start();
+        for (int i = 1; i <= 99; i=i+2) {
+            synchronized (a) {
+                System.out.println(i);
+                if(i==1)
+                    a.flag=true;
+                a.notify();
+                try {
+                    a.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+}
